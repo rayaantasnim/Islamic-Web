@@ -1,0 +1,456 @@
+/* ==========================================================================
+   TABLE OF CONTENTS
+   --------------------------------------------------------------------------
+   1. CSS Custom Properties & Design Tokens
+   2. Base Reset & Custom Scrollbar
+   3. Typography & Shimmer Hover Effects
+   4. Glassmorphism & Card Micro-Interactions
+   5. Button & CTA Neon Interactions
+   6. Navigation & Hamburger Button Animations
+   7. Media, Image Scaling & Dark Room Overlay Controls
+   8. Icon Motion & Kinetic Micro-Feedback
+   9. Reference Catalog Interactive List Styles
+   10. Custom Keyframe Animations
+   ========================================================================== */
+
+/* ==========================================================================
+   1. CSS CUSTOM PROPERTIES & DESIGN TOKENS
+   ========================================================================== */
+:root {
+  /* Color System */
+  --bg-deep-emerald: #011c16;
+  --bg-dark-emerald: #022c22;
+  --bg-card-emerald: rgba(6, 78, 59, 0.25);
+  
+  --amber-primary: #f59e0b;
+  --amber-light: #fbbf24;
+  --amber-glow-color: rgba(245, 158, 11, 0.5);
+  --emerald-glow-color: rgba(16, 185, 129, 0.4);
+
+  /* Easing Curves */
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-cinematic: cubic-bezier(0.25, 1, 0.5, 1);
+
+  /* Neon Shadows */
+  --neon-amber-sm: 0 0 10px rgba(245, 158, 11, 0.3);
+  --neon-amber-md: 0 0 20px rgba(245, 158, 11, 0.5), 0 0 40px rgba(245, 158, 11, 0.2);
+  --neon-amber-lg: 0 0 30px rgba(245, 158, 11, 0.7), 0 0 60px rgba(245, 158, 11, 0.35);
+  
+  /* Card Elevation */
+  --card-shadow-default: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  --card-shadow-hover: 0 25px 50px -12px rgba(0, 0, 0, 0.75), 0 0 30px rgba(245, 158, 11, 0.25);
+}
+
+/* ==========================================================================
+   2. BASE RESET & CUSTOM SCROLLBAR
+   ========================================================================== */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-deep-emerald);
+  color: #ecfdf5;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom Webkit Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-deep-emerald);
+  border-left: 1px solid rgba(245, 158, 11, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(6, 78, 59, 0.8);
+  border-radius: 5px;
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  transition: all 0.3s var(--ease-smooth);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--amber-primary);
+  box-shadow: var(--neon-amber-md);
+}
+
+/* Custom Text Selection */
+::selection {
+  background-color: var(--amber-primary);
+  color: #022c22;
+}
+
+/* ==========================================================================
+   3. TYPOGRAPHY & SHIMMER HOVER EFFECTS
+   ========================================================================== */
+.font-cinzel {
+  font-family: 'Cinzel', serif;
+}
+
+.font-arabic {
+  font-family: 'Amiri', serif;
+}
+
+/* Gold Gradient Shimmer Text */
+.gold-text {
+  background: linear-gradient(
+    135deg,
+    #fef3c7 0%,
+    #f59e0b 35%,
+    #d97706 70%,
+    #fef3c7 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: background-position 0.6s var(--ease-smooth), filter 0.4s var(--ease-smooth);
+}
+
+.gold-text:hover {
+  background-position: right center;
+  filter: drop-shadow(0 0 12px rgba(245, 158, 11, 0.65));
+}
+
+/* Dynamic Underline Hover Effect for Headings */
+h2.font-cinzel {
+  position: relative;
+  display: inline-block;
+}
+
+h2.font-cinzel::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--amber-primary), transparent);
+  transition: width 0.5s var(--ease-smooth);
+  box-shadow: var(--neon-amber-sm);
+}
+
+h2.font-cinzel:hover::after {
+  width: 100%;
+}
+
+/* ==========================================================================
+   4. GLASSMORPHISM & CARD MICRO-INTERACTIONS
+   ========================================================================== */
+.glass-nav {
+  background: rgba(1, 28, 22, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(245, 158, 11, 0.15);
+  transition: background-color 0.4s var(--ease-smooth),
+              border-color 0.4s var(--ease-smooth),
+              box-shadow 0.4s var(--ease-smooth);
+}
+
+.glass-nav:hover {
+  background: rgba(1, 28, 22, 0.95);
+  border-bottom-color: rgba(245, 158, 11, 0.4);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8);
+}
+
+.glass-card {
+  background: var(--bg-card-emerald);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(245, 158, 11, 0.15);
+  border-radius: 1rem;
+  transition: transform 0.5s var(--ease-smooth),
+              border-color 0.4s var(--ease-smooth),
+              box-shadow 0.5s var(--ease-smooth),
+              background 0.4s var(--ease-smooth);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Light Sweep Beam on Card Hover */
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 45%,
+    rgba(245, 158, 11, 0.08) 50%,
+    transparent 55%
+  );
+  transform: rotate(30deg) translateY(-100%);
+  transition: transform 0.8s var(--ease-smooth);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.glass-card:hover {
+  transform: translateY(-8px) scale(1.015);
+  border-color: rgba(245, 158, 11, 0.5);
+  box-shadow: var(--card-shadow-hover);
+  background: rgba(6, 78, 59, 0.45);
+}
+
+.glass-card:hover::before {
+  transform: rotate(30deg) translateY(100%);
+}
+
+/* Hero Section Badge Glow */
+.hero-content .glass-card:hover {
+  box-shadow: var(--neon-amber-md);
+  border-color: var(--amber-light);
+}
+
+/* ==========================================================================
+   5. BUTTON & CTA NEON INTERACTIONS
+   ========================================================================== */
+/* Primary Gradient Call to Action Button */
+a[href="#justice"] {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  transition: transform 0.4s var(--ease-bounce),
+              box-shadow 0.4s var(--ease-smooth);
+  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.25);
+}
+
+a[href="#justice"]::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(254, 243, 199, 0.3), transparent);
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-smooth);
+  z-index: -1;
+}
+
+a[href="#justice"]:hover {
+  transform: translateY(-4px) scale(1.04);
+  box-shadow: var(--neon-amber-lg);
+}
+
+a[href="#justice"]:hover::after {
+  opacity: 1;
+}
+
+a[href="#justice"]:hover i {
+  transform: translateY(3px);
+  transition: transform 0.3s var(--ease-bounce);
+}
+
+/* Secondary Ghost Outline Button */
+a[href="#references"].glass-card {
+  transition: all 0.4s var(--ease-smooth);
+}
+
+a[href="#references"].glass-card:hover {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: var(--amber-primary);
+  color: #fef3c7;
+  box-shadow: var(--neon-amber-md);
+}
+
+/* ==========================================================================
+   6. NAVIGATION & HAMBURGER BUTTON ANIMATIONS
+   ========================================================================== */
+#hamburger-btn {
+  transition: transform 0.4s var(--ease-bounce);
+}
+
+#hamburger-btn:hover {
+  transform: scale(1.15) rotate(5deg);
+}
+
+#hamburger-btn:hover span {
+  background-color: var(--amber-light);
+  box-shadow: var(--neon-amber-sm);
+}
+
+/* Fullscreen Overlay Menu Links */
+.overlay-link {
+  position: relative;
+  display: inline-block;
+  padding: 0.25rem 0;
+  transition: color 0.3s var(--ease-smooth),
+              transform 0.4s var(--ease-smooth),
+              letter-spacing 0.4s var(--ease-smooth);
+}
+
+.overlay-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--amber-primary);
+  box-shadow: var(--neon-amber-md);
+  transition: width 0.4s var(--ease-smooth), left 0.4s var(--ease-smooth);
+}
+
+.overlay-link:hover {
+  color: var(--amber-primary) !important;
+  transform: scale(1.06) translateX(8px);
+  letter-spacing: 0.05em;
+  text-shadow: var(--neon-amber-sm);
+}
+
+.overlay-link:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+/* ==========================================================================
+   7. MEDIA, IMAGE SCALING & DARK ROOM OVERLAY CONTROLS
+   ========================================================================== */
+.group:hover img,
+div[class*="overflow-hidden"] > img {
+  transition: transform 0.8s var(--ease-cinematic),
+              filter 0.8s var(--ease-cinematic);
+}
+
+div[class*="overflow-hidden"]:hover > img {
+  transform: scale(1.08);
+  filter: brightness(1.1) contrast(1.05);
+}
+
+/* Image Text Overlay Card Feedback */
+.relative .glass-card {
+  transition: transform 0.4s var(--ease-smooth),
+              background 0.4s var(--ease-smooth);
+}
+
+div[class*="overflow-hidden"]:hover .glass-card {
+  transform: translateY(-4px);
+  background: rgba(1, 28, 22, 0.85);
+  border-color: var(--amber-primary);
+}
+
+/* ==========================================================================
+   8. ICON MOTION & KINETIC MICRO-FEEDBACK
+   ========================================================================== */
+i.fa-star-and-crescent {
+  transition: transform 0.6s var(--ease-bounce),
+              filter 0.4s var(--ease-smooth);
+}
+
+a.group:hover i.fa-star-and-crescent {
+  transform: rotate(45deg) scale(1.25);
+  filter: drop-shadow(0 0 10px var(--amber-primary));
+}
+
+i[class*="fa-"] {
+  transition: transform 0.4s var(--ease-bounce),
+              color 0.3s var(--ease-smooth),
+              filter 0.3s var(--ease-smooth);
+}
+
+/* Pillar Card Icon Circle Hover State */
+.glass-card:hover .w-16.h-16 {
+  background-color: rgba(245, 158, 11, 0.3);
+  box-shadow: var(--neon-amber-md);
+  transform: scale(1.12) rotate(-8deg);
+  border: 1px solid var(--amber-primary);
+}
+
+.glass-card:hover .w-16.h-16 i {
+  color: #ffffff;
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 8px #ffffff);
+}
+
+/* Dual Comparative Cards (Lafhah vs Nafhah) */
+div[class*="bg-red-950"],
+div[class*="bg-amber-950"] {
+  transition: transform 0.4s var(--ease-smooth),
+              border-color 0.4s var(--ease-smooth),
+              box-shadow 0.4s var(--ease-smooth);
+}
+
+div[class*="bg-red-950"]:hover {
+  transform: translateY(-4px);
+  border-color: rgba(239, 68, 68, 0.6);
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+}
+
+div[class*="bg-amber-950"]:hover {
+  transform: translateY(-4px);
+  border-color: rgba(245, 158, 11, 0.6);
+  box-shadow: var(--neon-amber-sm);
+}
+
+/* ==========================================================================
+   9. REFERENCE CATALOG INTERACTIVE LIST STYLES
+   ========================================================================== */
+#references ul li {
+  position: relative;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  transition: background-color 0.3s var(--ease-smooth),
+              transform 0.3s var(--ease-smooth),
+              padding-left 0.3s var(--ease-smooth);
+}
+
+#references ul li:hover {
+  background-color: rgba(245, 158, 11, 0.12);
+  transform: translateX(6px);
+  padding-left: 1rem;
+}
+
+#references ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 15%;
+  height: 70%;
+  width: 3px;
+  background: var(--amber-primary);
+  border-radius: 2px;
+  opacity: 0;
+  box-shadow: var(--neon-amber-sm);
+  transition: opacity 0.3s var(--ease-smooth);
+}
+
+#references ul li:hover::before {
+  opacity: 1;
+}
+
+/* ==========================================================================
+   10. CUSTOM KEYFRAME ANIMATIONS
+   ========================================================================== */
+@keyframes neonPulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.2), inset 0 0 10px rgba(245, 158, 11, 0.1);
+    border-color: rgba(245, 158, 11, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(245, 158, 11, 0.5), inset 0 0 20px rgba(245, 158, 11, 0.2);
+    border-color: rgba(245, 158, 11, 0.7);
+  }
+}
+
+@keyframes gentleFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Apply Continuous Subtle Pulse to Hardship & Assurance Highlight Box */
+.border-2.border-amber-500\/30 {
+  animation: neonPulseGlow 4s infinite ease-in-out, gentleFloat 6s infinite ease-in-out;
+}
+
+.border-2.border-amber-500\/30:hover {
+  animation-play-state: paused;
+  box-shadow: var(--neon-amber-lg);
+  border-color: var(--amber-light);
+}
